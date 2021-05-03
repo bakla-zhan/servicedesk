@@ -1,0 +1,16 @@
+FROM golang:alpine
+ENV CGO_ENABLED=0
+ENV PORT=":8080"
+ENV DATABASE_HOST="postgres"
+ENV DATABASE_NAME="postgres"
+ENV DATABASE_PORT="5432"
+ENV DATABASE_USER="postgres"
+ENV DATABASE_PASSWORD="postgres"
+ENV API_KEY="a22bab1863650b7a4681b34b588c5af3b01c694c"
+ENV SECRET_KEY="04956ac18d63b123d70fd563cd509af18390d0d3"
+RUN mkdir /app 
+ADD . /app/ 
+WORKDIR /app
+EXPOSE 8080
+RUN go build -o main . 
+CMD ["/app/main"]

@@ -1,0 +1,126 @@
+openapi: 3.0.1
+info:
+  title: ServiceDesk
+  version: 1.0.0
+paths:
+  /support:
+    get:
+      summary: requests list
+      operationId: ListRequests
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Request'
+      security:
+      - api_key: []
+    post:
+      summary: create new request
+      operationId: CreateRequest
+      requestBody:
+        description: "Request object to be added to the store"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: true
+      responses:
+        201:
+          description: successful response
+          content: {}
+        400:
+          description: Invalid input
+          content: {}
+      security:
+      - api_key: []
+  /support/{requestId}:
+    get:
+      summary: find request by ID
+      operationId: GetRequest
+      parameters:
+      - name: requestId
+        in: path
+        description: request ID to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        400:
+          description: Invalid ID
+          content: {}
+    put:
+      summary: Updates request in the store with form data
+      operationId: UpdateRequest
+      parameters:
+      - name: requestId
+        in: path
+        description: ID of request to be updated
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+        required: true
+      responses:
+        200:
+          description: successful response
+          content: {}
+        400:
+          description: Invalid input
+          content: {}
+      security:
+      - api_key: []
+    delete:
+      summary: Deletes a request
+      operationId: DeleteRequest
+      parameters:
+      - name: requestId
+        in: path
+        description: request ID to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: successful delete
+          content: {}
+        400:
+          description: Invalid ID
+          content: {}
+      security:
+      - api_key: []
+components:
+  securitySchemes:
+    api_key:
+      type: "apiKey"
+      name: "X-API-KEY"
+      in: "header"
+  schemas:
+    Request:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        head:
+          type: string
+        body:
+          type: string
+        email:
+          type: string
